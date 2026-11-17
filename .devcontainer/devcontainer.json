@@ -1,0 +1,23 @@
+{
+  "name": "OpenSearch · M2 Data Science en santé",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "hostRequirements": {
+    "cpus": 2,
+    "memory": "8gb"
+  },
+  "postCreateCommand": "pip install -r requirements.txt",
+  "postStartCommand": "docker compose up -d",
+  "forwardPorts": [9200, 5601],
+  "portsAttributes": {
+    "9200": {"label": "OpenSearch (API)"},
+    "5601": {"label": "Dashboards", "onAutoForward": "notify"}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python", "ms-toolsai.jupyter"]
+    }
+  }
+}
