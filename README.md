@@ -76,6 +76,7 @@ quand vous avez fait les parties 03 et 04 du notebook. Ctrl+C dans le terminal p
 |---|---|
 | `ConnectionError` dans le notebook | OpenSearch démarre encore : attendre une minute, puis relancer la cellule. Sinon `docker compose ps` et `docker compose logs opensearch` |
 | Le conteneur `opensearch` s'arrête au démarrage (Linux) | `sudo sysctl -w vm.max_map_count=262144`, puis `docker compose up -d` |
+| `unknown shorthand flag: 'd' in -d` | Docker sans le module Compose (Mac avec Homebrew et Colima) : `brew install docker-compose`, puis `mkdir -p ~/.docker/cli-plugins && ln -sfn "$(brew --prefix)/opt/docker-compose/bin/docker-compose" ~/.docker/cli-plugins/docker-compose`. Ou taper `docker-compose up -d` |
 | `Cannot connect to the Docker daemon` | Lancer Docker Desktop, attendre qu'il soit prêt |
 | `port is already allocated` (9200 ou 5601) | Un autre OpenSearch tourne : `docker compose down` dans l'autre dossier, ou fermer l'autre conteneur |
 | Téléchargement trop lent sur le Wi-Fi | Passer en voie B (Codespaces) |
