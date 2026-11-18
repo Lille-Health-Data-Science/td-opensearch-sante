@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recherche · comptes rendus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fond: #F7F8F8; --carte: #FFFFFF; --encre: #16201F; --doux: #46514F; --pale: #717C7C;
+  --trait: #DCE1E0; --sarcelle: #0E6E7D; --sarcelle-fonce: #0A4F58; --sarcelle-clair: #DCEBED;
+  --ocre: #C47F2A; --marque: #F7E3B5; --erreur: #B23A34; --erreur-fond: #F6E2E0;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fond: #121A19; --carte: #1A2423; --encre: #E6ECEB; --doux: #B3BFBD; --pale: #8A9795;
+    --trait: #2C3A38; --sarcelle: #4FB3C1; --sarcelle-fonce: #7FC4CE; --sarcelle-clair: #1F3A3E;
+    --ocre: #E3A95A; --marque: #5A4520; --erreur: #F0928B; --erreur-fond: #3A2422;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fond); color: var(--encre);
+  font: 15px/1.5 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
+header { background: var(--sarcelle-fonce); color: #fff; padding: 18px 24px; }
+@media (prefers-color-scheme: dark) { header { background: #0A2E33; } }
+header .ligne { max-width: 1180px; margin: 0 auto; display: flex; gap: 16px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; }
+header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+header .sur { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #E3A95A; }
+#etat { font-size: 13px; color: #B9D3D6; }
+main { max-width: 1180px; margin: 0 auto; padding: 20px 24px 48px; }
+form { background: var(--carte); border: 1px solid var(--trait); border-radius: 8px; padding: 18px; display: grid; gap: 14px; }
+.recherche { display: flex; gap: 10px; }
+.recherche input { flex: 1; min-width: 0; font: inherit; font-size: 17px; padding: 10px 14px; border: 1px solid var(--trait); border-radius: 6px; background: var(--fond); color: var(--encre); }
+.recherche input:focus, select:focus, input[type=date]:focus { outline: 2px solid var(--sarcelle); outline-offset: 1px; }
+button { font: inherit; cursor: pointer; border-radius: 6px; }
+.principal { background: var(--sarcelle); color: #fff; border: 0; padding: 10px 20px; font-weight: 600; }
+.principal:hover { background: var(--sarcelle-fonce); }
+.options { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: end; }
+.champ { display: grid; gap: 4px; font-size: 13px; color: var(--doux); }
+select, input[type=date] { font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--trait); border-radius: 6px; background: var(--carte); color: var(--encre); }
+.segments { display: inline-flex; border: 1px solid var(--trait); border-radius: 6px; overflow: hidden; }
+.segments label { padding: 6px 12px; font-size: 14px; color: var(--encre); cursor: pointer; border-right: 1px solid var(--trait); }
+.segments label:last-child { border-right: 0; }
+.segments input { position: absolute; opacity: 0; pointer-events: none; }
+.segments label:has(input:checked) { background: var(--sarcelle-clair); color: var(--sarcelle-fonce); font-weight: 600; }
+.segments label:has(input:focus-visible) { outline: 2px solid var(--sarcelle); outline-offset: -2px; }
+.grille { display: grid; grid-template-columns: 220px 1fr; gap: 20px; margin-top: 20px; }
+@media (max-width: 760px) { .grille { grid-template-columns: 1fr; } .recherche { flex-direction: column; } }
+aside h2, .entete h2 { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--pale); margin: 0 0 8px; font-weight: 500; }
+.facettes { display: grid; gap: 2px; }
+.facettes button { display: flex; justify-content: space-between; gap: 8px; width: 100%; text-align: left; background: none; border: 0; padding: 6px 8px; color: var(--encre); font-size: 14px; }
+.facettes button:hover { background: var(--sarcelle-clair); }
+.facettes button.actif { background: var(--sarcelle-clair); color: var(--sarcelle-fonce); font-weight: 600; }
+.facettes .n { color: var(--pale); font-variant-numeric: tabular-nums; }
+.entete { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.total { font-size: 15px; } .total b { font-size: 22px; }
+.resultat { background: var(--carte); border: 1px solid var(--trait); border-radius: 8px; padding: 14px 16px; margin-bottom: 10px; }
+.resultat .haut { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; font-size: 13px; color: var(--doux); }
+.resultat h3 { margin: 0 0 4px; font-size: 16px; font-weight: 600; color: var(--encre); }
+.puce { background: var(--sarcelle-clair); color: var(--sarcelle-fonce); padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+.score { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--pale); }
+.extrait { margin: 8px 0 0; color: var(--encre); }
+.extrait + .extrait { margin-top: 4px; }
+mark { background: var(--marque); color: inherit; padding: 0 2px; border-radius: 2px; }
+.pages { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 14px; font-size: 14px; color: var(--doux); }
+.pages button { background: var(--carte); border: 1px solid var(--trait); padding: 6px 12px; color: var(--encre); }
+.pages button:disabled { opacity: .4; cursor: default; }
+details { margin-top: 20px; background: var(--carte); border: 1px solid var(--trait); border-radius: 8px; padding: 12px 16px; }
+summary { cursor: pointer; font-weight: 600; }
+details p { font-size: 13px; color: var(--doux); margin: 8px 0; }
+pre { background: #16201F; color: #DCE1E0; padding: 14px; border-radius: 6px; overflow: auto; font-size: 12.5px; max-height: 420px; margin: 0; }
+.copier { background: none; border: 1px solid var(--trait); padding: 4px 10px; font-size: 13px; color: var(--encre); }
+.message { padding: 14px 16px; border-radius: 8px; margin-top: 20px; }
+.message.erreur { background: var(--erreur-fond); color: var(--erreur); }
+.message.info { background: var(--sarcelle-clair); color: var(--sarcelle-fonce); }
+.message button { margin-top: 8px; }
+.vide { color: var(--doux); padding: 24px 0; }
+.cache { display: none !important; }
+</style>
+</head>
+<body>
+<header><div class="ligne">
+  <div><div class="sur">M2 DSS · Séance 3 · Bonus</div><h1>Recherche dans les comptes rendus</h1></div>
+  <div id="etat">Connexion à OpenSearch…</div>
+</div></header>
+
+<main>
+<form id="formulaire" autocomplete="off">
+  <div class="recherche">
+    <input id="q" name="q" type="search" placeholder="Ex. : insuffisance cardiaque, diabete, hta…" aria-label="Texte recherché">
+    <button class="principal" type="submit">Rechercher</button>
+  </div>
+  <div class="options">
+    <div class="champ">Type de recherche
+      <div class="segments" role="radiogroup" aria-label="Type de recherche">
+        <label><input type="radio" name="mode" value="match" checked>Mots</label>
+        <label><input type="radio" name="mode" value="phrase">Expression exacte</label>
+        <label><input type="radio" name="mode" value="flou">Tolérant aux fautes</label>
+      </div>
+    </div>
+    <label class="champ">Index
+      <select name="index" id="index">
+        <option value="comptes_rendus">comptes_rendus · analyseur french</option>
+        <option value="comptes_rendus_fr">comptes_rendus_fr · fr_medical + synonymes</option>
+      </select>
+    </label>
+    <label class="champ">Du <input type="date" name="du" min="2024-01-01" max="2026-12-31"></label>
+    <label class="champ">Au <input type="date" name="au" min="2024-01-01" max="2026-12-31"></label>
+    <label class="champ">Trier par
+      <select name="tri"><option value="pertinence">pertinence (BM25)</option><option value="date">date, du plus récent</option></select>
+    </label>
+    <label class="champ cache" id="champ-statut">Diabète (partie 04)
+      <select name="statut">
+        <option value="">tous</option><option value="affirmé">affirmé</option><option value="nié">nié</option>
+        <option value="familial">familial</option><option value="hypothèse">hypothèse</option>
+      </select>
+    </label>
+  </div>
+  <input type="hidden" name="service" id="service">
+</form>
+
+<div id="message"></div>
+
+<div class="grille" id="zone">
+  <aside>
+    <h2>Par service</h2>
+    <div class="facettes" id="facettes"></div>
+  </aside>
+  <section aria-live="polite">
+    <div class="entete"><div class="total" id="total"></div><h2 id="filtre-service"></h2></div>
+    <div id="resultats"></div>
+    <div class="pages" id="pages"></div>
+  </section>
+</div>
+
+<details id="details-requete">
+  <summary>La requête envoyée à OpenSearch</summary>
+  <p>À coller dans Dashboards › Dev Tools, après la ligne <code class="mono" id="ligne-devtools">POST comptes_rendus/_search</code>.
+     <button type="button" class="copier" id="copier">Copier</button></p>
+  <pre id="requete">{}</pre>
+</details>
+</main>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const form = $("#formulaire");
+let page = 1, derniere = null;
+
+const echapper = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const dateFr = (d) => d ? new Date(d + "T12:00:00").toLocaleDateString("fr-FR", {day: "numeric", month: "long", year: "numeric"}) : "";
+
+function message(texte, type = "erreur", bouton = null) {
+  const zone = $("#message");
+  zone.innerHTML = texte ? `<div class="message ${type}">${echapper(texte)}${bouton ? "<br>" : ""}</div>` : "";
+  if (bouton) zone.firstChild.appendChild(bouton);
+}
+
+async function chargerEtat() {
+  try {
+    const r = await fetch("api/etat");
+    const e = await r.json();
+    if (!r.ok) { $("#etat").textContent = "OpenSearch injoignable"; message(e.erreur); return false; }
+    const parts = Object.entries(e.index).map(([n, c]) => `${n} : ${c}`);
+    $("#etat").textContent = `OpenSearch ${e.version} · ` + (parts.length ? parts.join(" · ") : "aucun index");
+    $("#champ-statut").classList.toggle("cache", !e.statut_diabete);
+    const optFr = $("#index option[value=comptes_rendus_fr]");
+    optFr.disabled = !("comptes_rendus_fr" in e.index);
+    if (!e.index.comptes_rendus) {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "principal"; b.textContent = "Indexer le corpus maintenant";
+      b.onclick = async () => {
+        b.disabled = true; b.textContent = "Indexation…";
+        const r2 = await fetch("api/indexer", {method: "POST"});
+        const res = await r2.json();
+        message(res.message || res.erreur, r2.ok ? "info" : "erreur");
+        await chargerEtat(); if (r2.ok) rechercher();
+      };
+      message("L'index comptes_rendus n'existe pas encore ou il est vide. Exécutez la partie 02 du notebook, ou indexez le corpus d'ici.", "info", b);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    $("#etat").textContent = "Serveur arrêté ?";
+    message("Le serveur de l'interface ne répond pas. Relancez python interface/serveur.py.");
+    return false;
+  }
+}
+
+async function rechercher() {
+  const params = new URLSearchParams(new FormData(form));
+  params.set("page", page);
+  for (const [k, v] of [...params]) if (!v) params.delete(k);
+  const r = await fetch("api/recherche?" + params);
+  const res = await r.json();
+  $("#ligne-devtools").textContent = `POST ${params.get("index") || "comptes_rendus"}/_search`;
+  if (res.requete) $("#requete").textContent = JSON.stringify(res.requete, null, 2);
+  if (!r.ok) { message(res.erreur); $("#resultats").innerHTML = ""; $("#total").textContent = ""; return; }
+  message("");
+  derniere = res;
+  afficher(res);
+}
+
+function afficher(res) {
+  const service = $("#service").value;
+  $("#total").innerHTML = `<b>${res.total}</b> compte${res.total > 1 ? "s" : ""} rendu${res.total > 1 ? "s" : ""} <span style="color:var(--pale)">· ${res.duree_ms} ms</span>`;
+  $("#filtre-service").textContent = service ? `Service : ${service}` : "";
+  const fac = $("#facettes");
+  fac.innerHTML = "";
+  const tous = document.createElement("button");
+  tous.type = "button"; tous.className = service ? "" : "actif";
+  tous.innerHTML = `<span>Tous les services</span>`;
+  tous.onclick = () => { $("#service").value = ""; page = 1; rechercher(); };
+  fac.appendChild(tous);
+  for (const b of res.par_service) {
+    const bt = document.createElement("button");
+    bt.type = "button"; bt.className = b.cle === service ? "actif" : "";
+    bt.innerHTML = `<span>${echapper(b.cle)}</span><span class="n">${b.nombre}</span>`;
+    bt.onclick = () => { $("#service").value = b.cle === service ? "" : b.cle; page = 1; rechercher(); };
+    fac.appendChild(bt);
+  }
+  const liste = $("#resultats");
+  if (!res.resultats.length) { liste.innerHTML = `<p class="vide">Aucun compte rendu ne correspond.</p>`; }
+  else liste.innerHTML = res.resultats.map((d) => `
+    <article class="resultat">
+      <h3>${echapper(d.titre)}</h3>
+      <div class="haut">
+        <span class="mono">${echapper(d.id)}</span><span class="puce">${echapper(d.service)}</span>
+        <span>${dateFr(d.date)}</span><span>${d.sexe === "F" ? "Femme" : "Homme"}, ${d.age} ans</span>
+        <span class="mono">${echapper(d.patient)}</span>
+        <span class="score">${d.score == null ? "trié par date" : "score " + d.score.toFixed(2)}</span>
+      </div>
+      ${(d.extraits.length ? d.extraits : []).map((e) => `<p class="extrait">… ${e} …</p>`).join("")}
+    </article>`).join("");
+  const nbPages = Math.max(1, Math.ceil(res.total / res.par_page));
+  $("#pages").innerHTML = res.total > res.par_page ? `
+    <button type="button" id="prec" ${page <= 1 ? "disabled" : ""}>Précédent</button>
+    <span>Page ${page} sur ${nbPages}</span>
+    <button type="button" id="suiv" ${page >= nbPages ? "disabled" : ""}>Suivant</button>` : "";
+  if ($("#prec")) {
+    $("#prec").onclick = () => { page--; rechercher(); window.scrollTo(0, 0); };
+    $("#suiv").onclick = () => { page++; rechercher(); window.scrollTo(0, 0); };
+  }
+}
+
+form.addEventListener("submit", (e) => { e.preventDefault(); page = 1; rechercher(); });
+form.addEventListener("change", (e) => { if (e.target.name !== "q") { page = 1; rechercher(); } });
+$("#copier").onclick = async () => {
+  try { await navigator.clipboard.writeText($("#requete").textContent); $("#copier").textContent = "Copié"; }
+  catch { $("#copier").textContent = "Sélectionnez le texte"; }
+  setTimeout(() => ($("#copier").textContent = "Copier"), 1500);
+};
+
+chargerEtat().then((ok) => { if (ok) rechercher(); });
+</script>
+</body>
+</html>

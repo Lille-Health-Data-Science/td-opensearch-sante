@@ -56,6 +56,20 @@ Si OpenSearch n'a pas démarré, ouvrez un terminal (*Terminal › New Terminal*
 2. La première cellule du notebook affiche « OpenSearch 3.8.0 répond sur localhost ».
 3. Dashboards s'ouvre ; dans *Dev Tools*, `GET _cluster/health` répond `"status" : "green"` ou `"yellow"`.
 
+## Bonus : un mini moteur de recherche
+
+Une page de recherche toute prête sur le corpus : champ de recherche, choix entre mots, expression exacte et
+recherche tolérante aux fautes, filtres par service et par date, extraits surlignés, comptes par service, et la
+requête JSON envoyée à OpenSearch, à recopier dans *Dev Tools*. Rien à installer en plus.
+
+```bash
+python interface/serveur.py
+```
+
+Puis ouvrez http://localhost:8000 (Codespaces : onglet **Ports**, ligne **8000**). Si l'index `comptes_rendus`
+n'existe pas encore, la page propose de l'indexer. L'index `comptes_rendus_fr` et le filtre « Diabète » apparaissent
+quand vous avez fait les parties 03 et 04 du notebook. Ctrl+C dans le terminal pour arrêter.
+
 ## En cas de problème
 
 | Symptôme | Solution |
@@ -77,6 +91,7 @@ Si OpenSearch n'a pas démarré, ouvrez un terminal (*Terminal › New Terminal*
 | `seance3_etudiant.ipynb` | Le notebook : TP requêtes (partie 02), analyse et agrégations (partie 03), négation avec EDS-NLP (partie 04) |
 | `donnees/comptes_rendus.ndjson` | 600 comptes rendus fictifs (identifiant, patient, titre, service, date, âge, sexe, texte) |
 | `docker-compose.yml` | OpenSearch 3.8.0 et Dashboards 3.8.0, un seul nœud, sécurité désactivée |
+| `interface/` | Bonus : mini moteur de recherche (`serveur.py` et `index.html`, bibliothèque standard de Python seulement) |
 | `requirements.txt` | opensearch-py, pandas, matplotlib, EDS-NLP, Jupyter |
 | `.devcontainer/` | Configuration GitHub Codespaces (voie B) |
 

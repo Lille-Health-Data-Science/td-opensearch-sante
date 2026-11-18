@@ -79,6 +79,14 @@ Suivez la partie 03 du notebook en même temps que le cours.
 **À retenir** : chercher un mot ne suffit pas en clinique. Sur 222 comptes rendus trouvés par « diabète »,
 69 ne décrivent pas un patient diabétique.
 
+## Bonus : le mini moteur de recherche
+
+`python interface/serveur.py`, puis http://localhost:8000 (README, section « Bonus »). Refaites-y les étapes du TP
+sans écrire de JSON, et comparez avec vos chiffres : « insuffisance cardiaque » en *Mots* (344) puis en
+*Expression exacte* (119), filtre Cardiologie à partir du 1er janvier 2026 (11), « diabete » en *Tolérant aux fautes*
+(241). Ouvrez « La requête envoyée à OpenSearch » : c'est le JSON que vous avez écrit dans le notebook.
+Avec l'index `comptes_rendus_fr` et le filtre « Diabète : affirmé », vous retrouvez la cohorte de la partie 04 (153).
+
 ## Pour aller plus loin
 
 - Ajoutez au dictionnaire d'EDS-NLP les fautes de frappe de l'étape 4.
