@@ -10,7 +10,7 @@ marquées `# À COMPLÉTER` sont à écrire, les autres s'exécutent telles quel
 | Moment | Partie | Ce que vous faites | Vous avez fini quand… |
 |---|---|---|---|
 | 8 h 00 | Introduction | Lancer l'installation (README) pendant l'introduction | la première cellule du notebook affiche « OpenSearch 3.8.0 » |
-| ≈ 8 h 45 | 01 · Moteurs plein texte | Exercice papier : votre index inversé (6 min) | vous savez pourquoi « décompensation » ne trouve pas « décompensée » |
+| ≈ 8 h 45 | 01 · Moteurs plein texte | Exercice : votre index inversé, en Python (6 min) | vous savez pourquoi « décompensation » ne trouve pas la phrase 1 |
 | ≈ 9 h 40 | 02 · Indexer et interroger | **TP requêtes** dans le notebook (15 min) | les cinq étapes donnent les chiffres ci-dessous |
 | 10 h 10 | 03 · Analyse et agrégations | Suivre la partie 03 du notebook avec le cours | vous expliquez les écarts du tableau de comparaison |
 | ≈ 11 h 30 | 04 · Pertinence et sens | Négation avec EDS-NLP, puis la cohorte | la cohorte compte 153 comptes rendus |
@@ -22,10 +22,18 @@ marquées `# À COMPLÉTER` sont à écrire, les autres s'exécutent telles quel
 Suivez le [README](README.md) : voie A (Docker) ou voie B (Codespaces). L'installation tourne pendant
 l'introduction ; revenez-y à la fin de la partie 01 si elle n'a pas fini.
 
-## Partie 01 · Votre index inversé (exercice papier, ≈ 8 h 45)
+## Partie 01 · Votre index inversé (≈ 8 h 45, 6 min)
 
-Sur la slide « Votre index inversé » : construisez à la main l'index des trois phrases, puis cherchez
-« cardiaque » et « décompensation ». Rien à exécuter.
+Partie 01 du notebook, en Python seulement : OpenSearch n'a pas besoin d'être prêt. Complétez la boucle qui
+construit l'index des trois phrases de la slide, puis exécutez la recherche.
+
+| Recherche | Phrases trouvées | Pourquoi |
+|---|---|---|
+| cardiaque | 1 et 3 | le mot est identique dans les deux |
+| décompensation | 3 seulement | « décompensée » (phrase 1) est un autre terme dans l'index : pas de racine |
+| insuffisance | 1 seulement | « d'insuffisance » (phrase 2) est resté collé : pas d'élision |
+
+Si votre Python n'est pas encore installé, faites-le à la main sur la slide.
 
 ## Partie 02 · TP requêtes (≈ 9 h 40, 15 min)
 

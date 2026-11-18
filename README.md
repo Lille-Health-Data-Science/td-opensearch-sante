@@ -89,7 +89,7 @@ quand vous avez fait les parties 03 et 04 du notebook. Ctrl+C dans le terminal p
 | Élément | Rôle |
 |---|---|
 | `TD.md` | Déroulé de la séance, avec ce qu'on doit voir à chaque étape |
-| `seance3_etudiant.ipynb` | Le notebook : TP requêtes (partie 02), analyse et agrégations (partie 03), négation avec EDS-NLP (partie 04) |
+| `seance3_etudiant.ipynb` | Le notebook : index inversé en Python (partie 01), TP requêtes (partie 02), analyse et agrégations (partie 03), négation avec EDS-NLP (partie 04) |
 | `donnees/comptes_rendus.ndjson` | 600 comptes rendus fictifs (identifiant, patient, titre, service, date, âge, sexe, texte) |
 | `docker-compose.yml` | OpenSearch 3.8.0 et Dashboards 3.8.0, un seul nœud, sécurité désactivée |
 | `interface/` | Bonus : mini moteur de recherche (`serveur.py` et `index.html`, bibliothèque standard de Python seulement) |
