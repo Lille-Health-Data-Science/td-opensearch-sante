@@ -2,7 +2,8 @@
 
 Séance 3 de l'option Data (Université de Lille) : **samedi 21 novembre 2026, 8 h – 12 h**.
 Ce dossier installe **OpenSearch 3.8.0** et son interface **Dashboards**, et contient le corpus et le notebook
-de la séance. Le déroulé pas à pas est dans **[TD.md](TD.md)**.
+de la séance. Le déroulé pas à pas est dans **[TD.md](TD.md)**, les slides du cours dans
+**[supports/03-opensearch.pdf](supports/03-opensearch.pdf)**.
 
 > Le corpus `donnees/comptes_rendus.ndjson` est **entièrement fictif** : 600 comptes rendus, aucun patient réel.
 > La sécurité d'OpenSearch est désactivée pour le TP : jamais de données réelles dans cette installation.
@@ -89,6 +90,7 @@ quand vous avez fait les parties 03 et 04 du notebook. Ctrl+C dans le terminal p
 | Élément | Rôle |
 |---|---|
 | `TD.md` | Déroulé de la séance, avec ce qu'on doit voir à chaque étape |
+| `supports/03-opensearch.pdf` | Les slides du cours (71 slides) |
 | `seance3_etudiant.ipynb` | Le notebook : index inversé en Python (partie 01), TP requêtes (partie 02), analyse et agrégations (partie 03), négation avec EDS-NLP (partie 04) |
 | `donnees/comptes_rendus.ndjson` | 600 comptes rendus fictifs (identifiant, patient, titre, service, date, âge, sexe, texte) |
 | `docker-compose.yml` | OpenSearch 3.8.0 et Dashboards 3.8.0, un seul nœud, sécurité désactivée |
