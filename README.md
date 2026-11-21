@@ -81,6 +81,7 @@ quand vous avez fait les parties 03 et 04 du notebook. Ctrl+C dans le terminal p
 | `Cannot connect to the Docker daemon` | Lancer Docker Desktop, attendre qu'il soit prêt |
 | `port is already allocated` (9200 ou 5601) | Un autre OpenSearch tourne : `docker compose down` dans l'autre dossier, ou fermer l'autre conteneur |
 | Téléchargement trop lent sur le Wi-Fi | Passer en voie B (Codespaces) |
+| Codespaces : « running in recovery mode due to a configuration error » | Codespace créé avant le correctif du 21 novembre : supprimer le codespace et en créer un nouveau (ou `git pull`, puis *Codespaces: Rebuild Container*) |
 | Codespaces : rien ne démarre | Approuver le dossier (bannière « mode Restreint » en haut), puis `docker compose up -d` dans un terminal |
 | `ModuleNotFoundError` | `pip install -r requirements.txt` dans l'environnement du notebook |
 | Autre chose | Montrer le message à l'enseignant |
